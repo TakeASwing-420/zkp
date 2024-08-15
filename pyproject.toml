@@ -10,6 +10,7 @@ libnum = "^1.7.1"
 matplotlib = "^3.9.1"
 galois = "^0.4.1"
 scipy = "^1.14.0"
+py-ecc = "^7.0.1"
 
 [tool.pyright]
 # https://github.com/microsoft/pyright/blob/main/docs/configuration.md
