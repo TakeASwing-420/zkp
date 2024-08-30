@@ -1,5 +1,6 @@
 import hashlib
 
+
 class MerkleTree:
     def __init__(self, data_list):
         self.leaves = [self.hash_data(data) for data in data_list]
