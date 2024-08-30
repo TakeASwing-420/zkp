@@ -38,6 +38,38 @@ class MerkleTree:
     def get_tree(self):
         return self.tree
 
+    def get_proof(self, data):
+        """Get the proof (Merkle path) for a given piece of data."""
+        index = self.leaves.index(self.hash_data(data))
+        proof = []
+
+        for level in self.tree[:-1]:  # Exclude the root level
+            if index % 2 == 0:  # Even index
+                # Pair with the next element
+                sibling_index = index + 1 if index + 1 < len(level) else index
+            else:  # Odd index
+                # Pair with the previous element
+                sibling_index = index - 1
+
+            proof.append((level[sibling_index], 'left' if index % 2 == 1 else 'right'))
+            index = index // 2
+
+        return proof
+
+    def verify(self, data, proof, root):
+        """Verify a piece of data against the given Merkle root."""
+        current_hash = self.hash_data(data)
+
+        for sibling_hash, direction in proof:
+            print(current_hash)
+            if direction == 'left':
+                current_hash = self.hash_data(sibling_hash + current_hash)
+            else:
+                current_hash = self.hash_data(current_hash + sibling_hash)
+                
+        print(current_hash)
+        return current_hash == root
+
 # Example usage
 if __name__ == "__main__":
     data_list = ["block1", "block2", "block3", "block4"]
@@ -48,4 +80,17 @@ if __name__ == "__main__":
         print(level, end=",\n")
     print("]")
 
-    print("\nRoot of the Merkle Tree:", merkle_tree.get_root())
+    our_root = merkle_tree.get_root()
+    if our_root is not None:
+        print("\nRoot of the Merkle Tree:", our_root, "\n")
+        print("Length of the Root of the Merkle Tree:", len(our_root), "\n")
+    else:
+        print("Merkle Tree is empty; no root exists.")
+
+    # Example of verifying a leaf
+    data_to_verify = "block2"
+    proof = merkle_tree.get_proof(data_to_verify)
+    is_valid = merkle_tree.verify(data_to_verify, proof, merkle_tree.get_root())
+
+    print(f"\nIs '{data_to_verify}' in the tree? {'Yes' if is_valid else 'No'}")
+
