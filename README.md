@@ -1,4 +1,4 @@
-# Zero-Knowledge Learning Path
+# Zero-Knowledge Learning Resource Path
 
 Welcome to the Zero-Knowledge Learning Path! This repository is dedicated to helping individuals learn about Zero-Knowledge Proofs (ZKPs), their applications, and how to implement them in various contexts. Whether you're a beginner or have some experience with cryptography, you'll find valuable resources and hands-on examples here.
 
